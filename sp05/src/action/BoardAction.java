@@ -1,7 +1,10 @@
 package action;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import model.Board101Bean;
 
@@ -98,4 +101,28 @@ public class BoardAction {
 		return bm;
 	}
 	
+	/*수정완료*/
+	@RequestMapping(value="/board_edit_ok")
+	public String edit_ok(@ModelAttribute Board101Bean b,
+			              HttpServletResponse response)
+	 throws Exception{
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!");
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out=response.getWriter();
+		
+		Board101Bean db_pwd=this.boardService.getCont(b.getNo());
+		//디비로 부터 비번을 가져옴
+		if(!db_pwd.getPass().equals(b.getPass())){
+			out.println("<script>");
+			out.println("alert('비번이 다릅니다!')");
+			out.println("history.back()");
+			out.println("</script>");
+		}else{
+			Board101DAOImpl dao=new Board101DAOImpl();
+			dao.updateBoard(b);//수정 메서드
+
+          return "redirect:/board_cont.do?no="+b.getNo()+"&state=cont";			
+		}
+		return null;
+	}
 }

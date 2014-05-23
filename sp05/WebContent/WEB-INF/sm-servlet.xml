@@ -14,6 +14,7 @@
 		     	/board_write_ok.do=boardAction
 		     	/board_list.do=boardAction
 		     	/board_cont.do=boardAction
+		     	/board_edit_ok.do=boardAction
 			</value>
 		</property>
 	</bean>

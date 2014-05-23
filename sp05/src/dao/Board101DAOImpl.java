@@ -108,4 +108,23 @@ public class Board101DAOImpl implements Board101DAO {
 	   return this.sqlSession.selectOne("Board.b_cont",no);
 	}
 
+	//수정하기
+	public void updateBoard(Board101Bean b) {
+	  try {
+		  con=ds.getConnection();
+		sql="update board101 set name=?,addr=?,gender=?,city=?,cont=? where no=?";
+		pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, b.getName());
+		pstmt.setString(2, b.getAddr());
+		pstmt.setString(3, b.getGender());
+		pstmt.setString(4, b.getCity());
+		pstmt.setString(5, b.getCont());
+		pstmt.setInt(6, b.getNo());
+		
+		pstmt.executeUpdate();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	}
+
 }
