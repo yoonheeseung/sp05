@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 
 import model.Board101Bean;
 
+import org.apache.ibatis.session.SqlSession;
+
 public class Board101DAOImpl implements Board101DAO {
 
 	Connection con = null;// 디비 연동 레퍼런스
@@ -42,6 +44,15 @@ public class Board101DAOImpl implements Board101DAO {
 		return cityNames;
 	}
 
+	private SqlSession sqlSession;//mybatis쿼리문 실행 변수
+	
+	
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+		//this.sqlSession이 mybatis쿼리문 실행 객체가 된다.
+	}//setter DI 의존관계를 만듬.
+
+	/* 저장 */
 	public int insert(Board101Bean b) {
 		int cnt=0;
 		try {
@@ -63,6 +74,38 @@ public class Board101DAOImpl implements Board101DAO {
 			e.printStackTrace();
 		}
 		return cnt;
+	}
+
+	/* ORM mybatis 디비 연동 프레임웍 쿼리문 실행 메서드(월말평가)
+	 * 1.insert(); 레코드 저장. ibatis에서 사용되는 insert()메서드는
+	 *   반환값이 Object()형이다. 하지만 mybatis에서 사용되는 insert()
+	 *   메서드는 반환값이 저장 성공된 레코드 행의 개수가 반환된다.
+	 *   자바 jdbc에서 insert,update,delete쿼리문을 실행하는
+	 *   executeUpdate()메서드가 반환값이 쿼리문 성공시 실행된 레코드 행의
+	 *   갯수를 반환한다. ibatis는 단종됨. 새롭게 나온것이 mybatis이다.
+	 * 
+	 * 2.udpate():레코드 수정. 반환값은 수정 성공시 실행된 레코드행(row)의 갯수를 반환
+	 * 
+	 * 3.delete():레코드 삭제. 반환값은 삭제 성공시 실행된 레코드행(row)의 갯수를 반환
+	 * 
+	 * 4.단 하나의 레코드를 반환: ibatis에서는 queryForObject()메서드를 사용한다.
+	 *   하지만 mybatis에서는 selectOne()메서드를 사용한다.
+	 *   
+	 * 5.하나 이상 레코드를 반환해서 컬렉션 List로 반환:
+	 *   ibatis에서는 queryForList(),
+	 *   mybatis에서는 selectList()메서드를 사용한다.
+	 */
+	/* 목록 */
+	@Override
+	public List<Board101Bean> getList() {
+		return this.sqlSession.selectList("Board.bList");
+		//Board는 네임스페이스 이름, bList는 select 아이디 이름
+	}
+
+	/*내용보기+수정폼+삭제폼*/
+	@Override
+	public Board101Bean getCont(int no) {
+	   return this.sqlSession.selectOne("Board.b_cont",no);
 	}
 
 }

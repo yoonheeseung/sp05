@@ -42,12 +42,14 @@
   </servlet-mapping>    
   
   <!-- 스프링에서 디비연동해주는 xml파일 로드 -->
-  
-  
-  
-  
-  
-  
-  
-  
+	 <listener>		
+	<listener-class>
+	org.springframework.web.context.ContextLoaderListener
+	</listener-class>
+	</listener>		
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-mybatis-oracle.xml</param-value>
+	</context-param>
+	<!-- spring-mybatis-oracle.xml 파일 로드 . 스프링과 mybatis+오라클 디비 연동 xml -->
 </web-app>

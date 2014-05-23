@@ -13,13 +13,17 @@
 		     	/board_write.do=boardAction
 		     	/board_write_ok.do=boardAction
 		     	/board_list.do=boardAction
+		     	/board_cont.do=boardAction
 			</value>
 		</property>
 	</bean>
 
 	<!-- Controller -->
-	<bean id="boardAction" class="action.BoardAction" />	
-
+	<bean id="boardAction" class="action.BoardAction" 
+	 p:boardService-ref="boardService" />
+	 <!-- p:boardSservice-ref="boardService" xml에서 스프링의
+	      setter DI를 통한 의존관계를 설정함. -->
+		
 	
 	<!-- ViewResolver -->
 	<bean id="internalResourceViewResolver"

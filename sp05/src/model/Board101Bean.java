@@ -13,6 +13,8 @@ public class Board101Bean {
 	private String city;
 	private String cont;
 	private String regdate;
+	
+	
 	public int getNo() {
 		return no;
 	}
@@ -53,7 +55,7 @@ public class Board101Bean {
 		return cont;
 	}
 	public void setCont(String cont) {
-		this.cont = cont;
+		this.cont = cont.trim();
 	}
 	public String getRegdate() {
 		return regdate;

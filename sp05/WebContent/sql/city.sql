@@ -47,3 +47,5 @@ create sequence board101_no_seq
 increment by 1 start with 1 nocache;
 
 select * from board101 order by no desc;
+
+select * from board101 where no =5;
